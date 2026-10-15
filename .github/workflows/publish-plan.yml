@@ -17,7 +17,11 @@ jobs:
         run: |
           tag="${GITHUB_REF_NAME}"
           version="${tag#plan-}"
+          notes="Обновление календаря."
+          if [[ -f release-notes.txt ]]; then
+            notes=$(cat release-notes.txt)
+          fi
           gh release create "$tag" "plan-${version}.zip" \
             --title "План мероприятий ${version}" \
-            --notes "Перед удалением мероприятия или контрольной программа спрашивает подтверждение. Если удалить не получилось, запись остаётся на экране." \
+            --notes "$notes" \
             --repo "${GITHUB_REPOSITORY}"
